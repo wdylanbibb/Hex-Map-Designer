@@ -64,7 +64,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/explore-editor-theme/plugin.cfg", "res://addons/github-integration/plugin.cfg", "res://addons/godot-plugin-refresher/plugin.cfg", "res://addons/zoomy/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/github-integration/plugin.cfg" )
 
 [importer_defaults]
 
