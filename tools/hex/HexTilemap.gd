@@ -49,18 +49,35 @@ func hex_to_cell(cell) -> Vector2:
 	return c
 
 
-func tilemap_to_direction(tile_direction):
-	if tile_direction == Vector2(-1, 0) or tile_direction == Vector2(-1, -1):
-		return 1
-	elif tile_direction == Vector2(0, -1):
-		return 2
-	elif tile_direction == Vector2(1, 0) or tile_direction == Vector2(1, -1):
-		return 4
-	elif tile_direction == Vector2(1, 1):
-		return 8
-	elif tile_direction == Vector2(0, 1):
-		return 16
-	elif tile_direction == Vector2(-1, 1):
-		return 32
+func tilemap_to_direction(current_cell, check_cell):
+	var tile_direction = check_cell - current_cell
+	if fmod(current_cell.x, 2)==0:
+		if tile_direction == Vector2(-1, 0):
+			return 1
+		elif tile_direction == Vector2(0, -1):
+			return 2
+		elif tile_direction == Vector2(1, 0):
+			return 4
+		elif tile_direction == Vector2(1, 1):
+			return 8
+		elif tile_direction == Vector2(0, 1):
+			return 16
+		elif tile_direction == Vector2(-1, 1):
+			return 32
+		else:
+			return 0
 	else:
-		return 0
+		if tile_direction == Vector2(-1, -1):
+			return 1
+		elif tile_direction == Vector2(0, -1):
+			return 2
+		elif tile_direction == Vector2(1, -1):
+			return 4
+		elif tile_direction == Vector2(1, 0):
+			return 8
+		elif tile_direction == Vector2(0, 1):
+			return 16
+		elif tile_direction == Vector2(-1, 0):
+			return 32
+		else:
+			return 0

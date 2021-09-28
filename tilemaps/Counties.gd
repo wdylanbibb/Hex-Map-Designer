@@ -4,7 +4,6 @@ var holding_texture = preload("res://assets/sprites/tiles/tilesets/holding_base.
 export(int, FLAGS, "NW", "N", "NE", "SE", "S", "SW") var match_override
 
 func _init() -> void:
-	
 	var file = File.new()
 	file.open("objects/holdings/holdings.json", File.READ)
 	var content = file.get_as_text()
@@ -33,13 +32,24 @@ onready var land_map = get_parent()
 func _ready() -> void:
 	for cell in get_used_cells():
 		update_bitmask_area(cell)
+	print(match_override >> int(log(32)/log(2)) & 1)
 
 
 func check_on(current_cell, check_cell) -> bool:
-	if only_match_with_same_tile:
-		if not get_cellv(check_cell) == get_cellv(current_cell) and not get_cellv(check_cell) == -1 and match_override & (1 << (tilemap_to_direction(check_cell-current_cell))):
-			return true
-	return .check_on(current_cell, check_cell)
+	if get_cellv(check_cell) == -1:
+		return false
+	else:
+		if not get_cellv(current_cell) == -1 and not get_cellv(check_cell) == get_cellv(current_cell):
+			print(tilemap_to_direction(current_cell, check_cell))
+			return bool(match_override >> int(log(tilemap_to_direction(current_cell, check_cell))/log(2)) & 1)
+		return get_cellv(check_cell) == get_cellv(current_cell) if only_match_with_same_tile else true
+
+
+func is_kth_bit_set(n, k):
+	if bool(n & (k)):
+		print("Set")
+	else:
+		print("Not set")
 
 
 func check_valid(cell: Vector2) -> bool:
