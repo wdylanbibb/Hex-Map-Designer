@@ -1,0 +1,20 @@
+{
+	"holdings": [
+		{
+			"name": "County1",
+			"color": "#6bd1e8"
+		},
+		{
+			"name": "County2",
+			"color": "#ff9a42"
+		},
+		{
+			"name": "County3",
+			"color": "#42ff94"
+		},
+		{
+			"name": "County4",
+			"color": "#ff4262"
+		}
+	]
+}

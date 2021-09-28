@@ -4,6 +4,7 @@ extends "res://tools/hex/HexTilemap.gd"
 var _ready : bool
 
 onready var decor = $Decor
+onready var counties = $Counties
 #onready var river = $River
 
 # warning-ignore:function_conflicts_variable
@@ -39,6 +40,10 @@ func set_cell(x: int, y: int, tile: int, flip_x: bool = false, flip_y: bool = fa
 			decor = $Decor
 		else:
 			_set_decor(x, y, tile)
+	if tile == -1:
+		if not counties.get_cell(x, y) == -1:
+			counties.set_cell(x, y, -1)
+			counties.update_bitmask_area(Vector2(x, y))
 
 func set_cellv(position: Vector2, tile: int, flip_x: bool = false, flip_y: bool = false, transpose: bool = false):
 	.set_cellv(position, tile, flip_x, flip_y, transpose)

@@ -47,3 +47,20 @@ func hex_to_cell(cell) -> Vector2:
 	var c = world_to_map(HexGrid.hex_to_pixel(cell))
 #	c.y += fmod(c.x, 2)
 	return c
+
+
+func tilemap_to_direction(tile_direction):
+	if tile_direction == Vector2(-1, 0) or tile_direction == Vector2(-1, -1):
+		return 1
+	elif tile_direction == Vector2(0, -1):
+		return 2
+	elif tile_direction == Vector2(1, 0) or tile_direction == Vector2(1, -1):
+		return 4
+	elif tile_direction == Vector2(1, 1):
+		return 8
+	elif tile_direction == Vector2(0, 1):
+		return 16
+	elif tile_direction == Vector2(-1, 1):
+		return 32
+	else:
+		return 0

@@ -17,7 +17,7 @@ onready var cell_position = $VBoxContainer/PanelContainer/CellPosition
 func _ready() -> void:
 	for id in land_map.tile_set.get_tiles_ids():
 		tile_select.add_icon_item(
-			get_texture_region(
+			Global.get_texture_region(
 				land_map.tile_set.tile_get_texture(id),
 				Rect2(Vector2.ZERO, land_map.tile_set.autotile_get_size(id))),
 			land_map.tile_set.tile_get_name(id),
@@ -73,10 +73,3 @@ func _action(cell: Vector2):
 		BUTTON_RIGHT:
 			land_map.set_cellv(cell, -1)
 			land_map.update_bitmask_area(cell)
-
-
-func get_texture_region(texture: Texture, rect: Rect2):
-	var atlas = AtlasTexture.new()
-	atlas.set_atlas(texture)
-	atlas.set_region(rect)
-	return atlas
