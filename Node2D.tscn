@@ -131,7 +131,7 @@
 4/shapes = [  ]
 4/z_index = 0
 
-[sub_resource type="TileSet" id=3]
+[sub_resource type="TileSet" id=2]
 0/name = "river"
 0/texture = ExtResource( 17 )
 0/tex_offset = Vector2( 0, 0 )
@@ -154,7 +154,7 @@
 0/shapes = [  ]
 0/z_index = 0
 
-[sub_resource type="TileSet" id=4]
+[sub_resource type="TileSet" id=3]
 0/name = "trees"
 0/texture = ExtResource( 8 )
 0/tex_offset = Vector2( 0, -10 )
@@ -219,7 +219,7 @@
 2/shapes = [  ]
 2/z_index = 1
 
-[sub_resource type="TileSet" id=2]
+[sub_resource type="TileSet" id=4]
 
 [sub_resource type="TileSet" id=5]
 
@@ -257,7 +257,7 @@ script = ExtResource( 2 )
 match_edges = 63
 
 [node name="River" type="TileMap" parent="Land"]
-tile_set = SubResource( 3 )
+tile_set = SubResource( 2 )
 cell_size = Vector2( 48, 30 )
 cell_half_offset = 4
 cell_y_sort = true
@@ -266,7 +266,7 @@ format = 1
 script = ExtResource( 18 )
 
 [node name="Decor" type="TileMap" parent="Land"]
-tile_set = SubResource( 4 )
+tile_set = SubResource( 3 )
 cell_size = Vector2( 48, 30 )
 cell_half_offset = 4
 cell_y_sort = true
@@ -276,7 +276,7 @@ script = ExtResource( 9 )
 
 [node name="Counties" type="TileMap" parent="Land"]
 position = Vector2( 0, -5 )
-tile_set = SubResource( 2 )
+tile_set = SubResource( 4 )
 cell_size = Vector2( 48, 30 )
 cell_half_offset = 4
 cell_y_sort = true
