@@ -131,10 +131,6 @@
 4/shapes = [  ]
 4/z_index = 0
 
-[sub_resource type="TileSet" id=2]
-
-[sub_resource type="TileSet" id=5]
-
 [sub_resource type="TileSet" id=3]
 0/name = "river"
 0/texture = ExtResource( 17 )
@@ -223,6 +219,10 @@
 2/shapes = [  ]
 2/z_index = 1
 
+[sub_resource type="TileSet" id=2]
+
+[sub_resource type="TileSet" id=5]
+
 [node name="Node2D" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -256,27 +256,6 @@ tile_data = PoolIntArray( 3538971, 0, 0, 3538972, 0, 0, 3538973, 0, 0, 3538974, 
 script = ExtResource( 2 )
 match_edges = 63
 
-[node name="Counties" type="TileMap" parent="Land"]
-position = Vector2( 0, -5 )
-tile_set = SubResource( 2 )
-cell_size = Vector2( 48, 30 )
-cell_half_offset = 4
-cell_y_sort = true
-centered_textures = true
-format = 1
-script = ExtResource( 21 )
-
-[node name="CountyBorders" type="TileMap" parent="Land"]
-position = Vector2( 0, -5 )
-tile_set = SubResource( 5 )
-cell_size = Vector2( 48, 30 )
-cell_half_offset = 4
-cell_y_sort = true
-centered_textures = true
-format = 1
-script = ExtResource( 20 )
-match_edges = 56
-
 [node name="River" type="TileMap" parent="Land"]
 tile_set = SubResource( 3 )
 cell_size = Vector2( 48, 30 )
@@ -294,6 +273,26 @@ cell_y_sort = true
 centered_textures = true
 format = 1
 script = ExtResource( 9 )
+
+[node name="Counties" type="TileMap" parent="Land"]
+position = Vector2( 0, -5 )
+tile_set = SubResource( 2 )
+cell_size = Vector2( 48, 30 )
+cell_half_offset = 4
+cell_y_sort = true
+centered_textures = true
+format = 1
+script = ExtResource( 21 )
+
+[node name="CountyBorders" type="TileMap" parent="Land/Counties"]
+tile_set = SubResource( 5 )
+cell_size = Vector2( 48, 30 )
+cell_half_offset = 4
+cell_y_sort = true
+centered_textures = true
+format = 1
+script = ExtResource( 20 )
+match_edges = 56
 
 [node name="LandPreview" type="Polygon2D" parent="."]
 color = Color( 0.266667, 1, 0, 0.376471 )
@@ -373,7 +372,6 @@ __meta__ = {
 }
 
 [node name="LandTools" type="PanelContainer" parent="CanvasLayer/UIElements/ToolTabs"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -387,12 +385,12 @@ land_preview_path = NodePath("../../../../LandPreview")
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIElements/ToolTabs/LandTools"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 155.0
+margin_right = 311.0
 margin_bottom = 123.0
 custom_constants/separation = 10
 
 [node name="TileSelect" type="OptionButton" parent="CanvasLayer/UIElements/ToolTabs/LandTools/VBoxContainer"]
-margin_right = 148.0
+margin_right = 304.0
 margin_bottom = 20.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -400,14 +398,14 @@ __meta__ = {
 
 [node name="BrushSizeLabel" type="Label" parent="CanvasLayer/UIElements/ToolTabs/LandTools/VBoxContainer"]
 margin_top = 30.0
-margin_right = 148.0
+margin_right = 304.0
 margin_bottom = 44.0
 text = "Brush Size"
 valign = 1
 
 [node name="BrushSize" type="SpinBox" parent="CanvasLayer/UIElements/ToolTabs/LandTools/VBoxContainer"]
 margin_top = 54.0
-margin_right = 148.0
+margin_right = 304.0
 margin_bottom = 78.0
 min_value = 1.0
 max_value = 5.0
@@ -415,13 +413,13 @@ value = 1.0
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/UIElements/ToolTabs/LandTools/VBoxContainer"]
 margin_top = 88.0
-margin_right = 148.0
+margin_right = 304.0
 margin_bottom = 116.0
 
 [node name="CellPosition" type="Label" parent="CanvasLayer/UIElements/ToolTabs/LandTools/VBoxContainer/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 141.0
+margin_right = 297.0
 margin_bottom = 21.0
 
 [node name="RiverTools" type="PanelContainer" parent="CanvasLayer/UIElements/ToolTabs"]
@@ -439,11 +437,11 @@ river_preview_path = NodePath("../../../../RiverPreview")
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIElements/ToolTabs/RiverTools"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 155.0
+margin_right = 311.0
 margin_bottom = 123.0
 
 [node name="CellPosition" type="Label" parent="CanvasLayer/UIElements/ToolTabs/RiverTools/VBoxContainer"]
-margin_right = 148.0
+margin_right = 304.0
 margin_bottom = 14.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -451,10 +449,11 @@ __meta__ = {
 
 [node name="RiverID" type="Label" parent="CanvasLayer/UIElements/ToolTabs/RiverTools/VBoxContainer"]
 margin_top = 18.0
-margin_right = 148.0
+margin_right = 304.0
 margin_bottom = 32.0
 
 [node name="CountyTools" type="PanelContainer" parent="CanvasLayer/UIElements/ToolTabs"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -465,7 +464,7 @@ script = ExtResource( 23 )
 camera_path = NodePath("../../../../Camera2D")
 counties_map_path = NodePath("../../../../Land/Counties")
 holding_selector_path = NodePath("../../../../HoldingPreview")
-county_border_path = NodePath("../../../../Land/CountyBorders")
+county_border_path = NodePath("../../../../Land/Counties/CountyBorders")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIElements/ToolTabs/CountyTools"]
 margin_left = 7.0

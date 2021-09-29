@@ -5,6 +5,7 @@ var _ready : bool
 
 onready var decor = $Decor
 onready var counties = $Counties
+onready var county_borders = $Counties/CountyBorders
 #onready var river = $River
 
 # warning-ignore:function_conflicts_variable
@@ -44,6 +45,15 @@ func set_cell(x: int, y: int, tile: int, flip_x: bool = false, flip_y: bool = fa
 		if not counties.get_cell(x, y) == -1:
 			counties.set_cell(x, y, -1)
 			counties.update_bitmask_area(Vector2(x, y))
+			county_borders.set_cell(x, y, -1)
+			county_borders.update_bitmask_area(Vector2(x, y))
+	else:
+		if not counties.get_cell(x, y) == -1:
+			if not counties.check_valid(Vector2(x, y)):
+				counties.set_cell(x, y, -1)
+				counties.update_bitmask_area(Vector2(x, y))
+				county_borders.set_cell(x, y, -1)
+				county_borders.update_bitmask_area(Vector2(x, y))
 
 func set_cellv(position: Vector2, tile: int, flip_x: bool = false, flip_y: bool = false, transpose: bool = false):
 	.set_cellv(position, tile, flip_x, flip_y, transpose)

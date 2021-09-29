@@ -3,7 +3,7 @@ extends "res://tools/hex/HexTilemap.gd"
 var holding_texture = preload("res://assets/sprites/tiles/tilesets/holding_base.png")
 
 
-#onready var county_borders = $CountyBorders
+onready var county_borders = $CountyBorders
 
 func _init() -> void:
 	for holding in HoldingsUnpacker.Holdings:
@@ -35,11 +35,6 @@ func set_cell(x: int, y: int, tile: int, flip_x: bool = false, flip_y: bool = fa
 func update_bitmask_area(position: Vector2):
 	.update_bitmask_area(position)
 #	county_borders.update_bitmask_area(position)
-
-
-func update_bitmask_region(start: Vector2 = Vector2.ZERO, end: Vector2 = Vector2.ZERO):
-	.update_bitmask_region(start, end)
-#	county_borders.update_bitmask_region(start, end)
 
 
 func check_valid(cell: Vector2) -> bool:
