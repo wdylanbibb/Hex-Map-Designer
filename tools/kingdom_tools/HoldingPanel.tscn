@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://tools/kingdom_tools/HoldingPanel.gd" type="Script" id=2]
+
+[node name="HoldingPanel" type="PanelContainer"]
+margin_top = 24.0
+margin_right = 148.0
+margin_bottom = 120.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 141.0
+margin_bottom = 89.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_right = 65.0
+margin_bottom = 82.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="NameLabel" type="Label" parent="HBoxContainer/VBoxContainer"]
+margin_top = 34.0
+margin_right = 65.0
+margin_bottom = 48.0
+text = "Name"
+align = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 69.0
+margin_right = 134.0
+margin_bottom = 82.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2"]
+margin_right = 65.0
+margin_bottom = 14.0
+text = "Crest"
+align = 1
+
+[node name="CrestTexture" type="TextureRect" parent="HBoxContainer/VBoxContainer2"]
+margin_top = 18.0
+margin_right = 65.0
+margin_bottom = 82.0
+texture = ExtResource( 1 )
+stretch_mode = 6

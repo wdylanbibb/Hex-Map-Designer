@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/water_base.png-4957ffa7fb1cb528c00933a51eeee0b5.stex"
+path="res://.import/holding_borders.png-875402252050e23eacb1d8093305261d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/tiles/ase/water_base.png"
-dest_files=[ "res://.import/water_base.png-4957ffa7fb1cb528c00933a51eeee0b5.stex" ]
+source_file="res://assets/sprites/tiles/tilesets/holding_borders.png"
+dest_files=[ "res://.import/holding_borders.png-875402252050e23eacb1d8093305261d.stex" ]
 
 [params]
 

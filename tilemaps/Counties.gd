@@ -1,21 +1,12 @@
 extends "res://tools/hex/HexTilemap.gd"
 
 var holding_texture = preload("res://assets/sprites/tiles/tilesets/holding_base.png")
-export(int, FLAGS, "NW", "N", "NE", "SE", "S", "SW") var match_override
+
+
+#onready var county_borders = $CountyBorders
 
 func _init() -> void:
-	var file = File.new()
-	file.open("objects/holdings/holdings.json", File.READ)
-	var content = file.get_as_text()
-	var holdings = JSON.parse(content).result
-	if typeof(holdings)==TYPE_DICTIONARY:
-		pass
-	else:
-		print("Unexpected results found in holdings.json.")
-		return
-	file.close()
-	
-	for holding in holdings.holdings:
+	for holding in HoldingsUnpacker.Holdings:
 		var id = tile_set.get_last_unused_tile_id()
 		tile_set.create_tile(id)
 		tile_set.tile_set_tile_mode(id, TileSet.ATLAS_TILE)
@@ -32,24 +23,23 @@ onready var land_map = get_parent()
 func _ready() -> void:
 	for cell in get_used_cells():
 		update_bitmask_area(cell)
-	print(match_override >> int(log(32)/log(2)) & 1)
 
 
-func check_on(current_cell, check_cell) -> bool:
-	if get_cellv(check_cell) == -1:
-		return false
-	else:
-		if not get_cellv(current_cell) == -1 and not get_cellv(check_cell) == get_cellv(current_cell):
-			print(tilemap_to_direction(current_cell, check_cell))
-			return bool(match_override >> int(log(tilemap_to_direction(current_cell, check_cell))/log(2)) & 1)
-		return get_cellv(check_cell) == get_cellv(current_cell) if only_match_with_same_tile else true
+func set_cell(x: int, y: int, tile: int, flip_x: bool = false, flip_y: bool = false, transpose: bool = false, autotile_coord: Vector2 = Vector2( 0, 0 )):
+	.set_cell(x, y, tile, flip_x, flip_y, transpose, autotile_coord)
+#	if not county_borders:
+#		county_borders = $CountyBorders
+#	county_borders.set_cell(x, y, tile, flip_x, flip_y, transpose, autotile_coord)
 
 
-func is_kth_bit_set(n, k):
-	if bool(n & (k)):
-		print("Set")
-	else:
-		print("Not set")
+func update_bitmask_area(position: Vector2):
+	.update_bitmask_area(position)
+#	county_borders.update_bitmask_area(position)
+
+
+func update_bitmask_region(start: Vector2 = Vector2.ZERO, end: Vector2 = Vector2.ZERO):
+	.update_bitmask_region(start, end)
+#	county_borders.update_bitmask_region(start, end)
 
 
 func check_valid(cell: Vector2) -> bool:

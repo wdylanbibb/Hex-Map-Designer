@@ -55,3 +55,4 @@ func _action(cell: Vector2):
 			river_map.set_river_edge(cell.x, cell.y, edge, true)
 		BUTTON_RIGHT:
 			river_map.set_river_edge(cell.x, cell.y, edge, false)
+

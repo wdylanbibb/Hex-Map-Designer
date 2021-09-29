@@ -28,6 +28,7 @@ config/icon="res://icon.png"
 
 HexGrid="*res://global/HexGrid.tscn"
 Global="*res://global/Global.gd"
+HoldingsUnpacker="*res://global/HoldingsUnpacker.gd"
 
 [display]
 

@@ -3,6 +3,7 @@ extends MapTool
 export(NodePath) var camera_path
 export(NodePath) var counties_map_path
 export(NodePath) var holding_selector_path
+export(NodePath) var county_border_path
 
 var selector_valid := preload("res://assets/sprites/icons/kingdom_selector.png")
 var selector_invalid := preload("res://assets/sprites/icons/kingdom_selector_invalid.png")
@@ -13,21 +14,15 @@ var _button : int
 
 onready var camera : Camera2D = get_node(camera_path)
 onready var counties_map : TileMap = get_node(counties_map_path)
-onready var holding_selector : Sprite = get_node(holding_selector_path)
+onready var county_border = get_node(county_border_path)
+onready var holding_selector : Node2D = get_node(holding_selector_path)
 
 onready var holding_select := $VBoxContainer/HoldingSelect
 
 func _ready() -> void:
 	camera.connect("zoom_changed", self, "_on_Camera_zoom_changed")
 	
-	for id in counties_map.tile_set.get_tiles_ids():
-		holding_select.add_icon_item(
-			Global.get_texture_region(
-				counties_map.tile_set.tile_get_texture(id),
-				Rect2(Vector2.ZERO, counties_map.tile_set.autotile_get_size(id))),
-			counties_map.tile_set.tile_get_name(id),
-			id
-		)
+#	_on_HoldingSelect_item_selected(holding_select.selected)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -40,9 +35,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		holding_selector.position = hex_position
 		if valid:
-			holding_selector.texture = selector_valid
+			holding_selector.change_texture(selector_valid)
 		else:
-			holding_selector.texture = selector_invalid
+			holding_selector.change_texture(selector_invalid)
 		
 		if _pressed:
 			if valid:
@@ -61,13 +56,19 @@ func _action(cell: Vector2):
 		BUTTON_LEFT:
 			counties_map.set_cellv(cell, holding_select.selected)
 			counties_map.update_bitmask_area(cell)
+			
+			county_border.set_cellv(cell, holding_select.selected)
+			county_border.update_bitmask_area(cell)
 		BUTTON_RIGHT:
 			counties_map.set_cellv(cell, -1)
 			counties_map.update_bitmask_area(cell)
+			
+			county_border.set_cellv(cell, -1)
+			county_border.update_bitmask_area(cell)
 
 
 func _on_Camera_zoom_changed():
-	holding_selector.scale = camera.zoom
+	holding_selector.sprite.scale = camera.zoom
 
 
 func set_disabled(d: bool) -> void:
@@ -76,3 +77,7 @@ func set_disabled(d: bool) -> void:
 	holding_selector.visible = d
 	
 	.set_disabled(d)
+
+
+func _on_HoldingSelect_item_selected(index: int) -> void:
+	holding_selector.change_border_color(HoldingsUnpacker.Holdings[index].color)

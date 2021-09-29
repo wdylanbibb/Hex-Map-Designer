@@ -2,8 +2,8 @@
 #warning-ignore-all:integer_division
 extends TileMap
 
-# Marks different tile ids as invalid connections (used for decor so mountains and forests do not connect)
-export(bool) var only_match_with_same_tile = false
+# Marks edges that tiles can connect with that arent their own
+export(int, FLAGS, "NW", "N", "NE", "SE", "S", "SW") var match_edges
 
 
 func update_bitmask_area(position: Vector2):
@@ -15,11 +15,14 @@ func update_bitmask_area(position: Vector2):
 		set_edge_bit(position.x, position.y, edge_bit, check_on(position, next_cell_position))
 		set_edge_bit(next_cell_position.x, next_cell_position.y, HexGrid.get_opposite_edge(edge_bit), check_on(next_cell_position, position))
 
+
 func check_on(current_cell: Vector2, check_cell: Vector2):
 	if get_cellv(check_cell) == -1:
 		return false
 	else:
-		return get_cellv(check_cell) == get_cellv(current_cell) if only_match_with_same_tile else true
+		if not get_cellv(check_cell) == get_cellv(current_cell):
+			return bool(match_edges >> int(log(tilemap_to_direction(current_cell, check_cell))/log(2)) & 1)
+		return true
 
 
 func set_edge_bit(x: int, y: int, edge: int, on: bool, tile_id_override = -1, print_stuff = false):
