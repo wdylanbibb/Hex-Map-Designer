@@ -5,7 +5,7 @@ var _ready : bool
 
 onready var decor = $Decor
 onready var counties = $Counties
-onready var county_borders = $Counties/CountyBorders
+onready var county_borders = $CountyBorders
 #onready var river = $River
 
 # warning-ignore:function_conflicts_variable
@@ -61,8 +61,8 @@ func set_cellv(position: Vector2, tile: int, flip_x: bool = false, flip_y: bool 
 
 func _set_decor(x: int, y: int, tile: int):
 	match tile:
-#		0: # Grass
-#			pass
+		0: # Grass
+			pass
 		1: # Desert
 			if round(rand_range(1, 10)) == 5:
 # warning-ignore:narrowing_conversion
@@ -71,8 +71,8 @@ func _set_decor(x: int, y: int, tile: int):
 				decor.set_cell(x, y, -1)
 		2: # Forest
 			decor.set_cell(x, y, 0)
-#		3: # Water
-#			pass
+		3: # Water
+			pass
 		4: #Mountain
 			decor.set_cell(x, y, 2)
 		_:

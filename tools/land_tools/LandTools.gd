@@ -15,6 +15,7 @@ onready var brush_size = $VBoxContainer/BrushSize
 onready var cell_position = $VBoxContainer/PanelContainer/CellPosition
 
 func _ready() -> void:
+	print(owner.name)
 	for id in land_map.tile_set.get_tiles_ids():
 		tile_select.add_icon_item(
 			Global.get_texture_region(

@@ -16,6 +16,15 @@ onready var river_edge = river_preview.get_node("RiverEdge")
 onready var cell_position = $VBoxContainer/CellPosition
 onready var river_id = $VBoxContainer/RiverID
 
+#func _ready() -> void:
+#	MainCamera.connect("zoom_changed", self, "_on_Camera_zoom_changed")
+#
+#
+#func _on_Camera_zoom_changed():
+#	river_preview.scale = MainCamera.zoom
+#	var edge = HexGrid.get_closest_edge(river_map.get_global_mouse_position())
+#	if not edge == river_preview.position:
+#		river_edge.global_position = edge
 
 func set_disabled(d: bool) -> void:
 	

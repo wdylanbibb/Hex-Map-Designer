@@ -1,6 +1,6 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=32 format=2]
 
-[ext_resource path="res://tools/camera/Camera2D.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/tiles/decor/settlement_camp.png" type="Texture" id=1]
 [ext_resource path="res://tilemaps/Land.gd" type="Script" id=2]
 [ext_resource path="res://tools/kingdom_tools/HoldingSelect.gd" type="Script" id=3]
 [ext_resource path="res://assets/sprites/tiles/tilesets/grass_base.png" type="Texture" id=4]
@@ -23,6 +23,8 @@
 [ext_resource path="res://tilemaps/Counties.gd" type="Script" id=21]
 [ext_resource path="res://assets/sprites/icons/kingdom_selector.png" type="Texture" id=22]
 [ext_resource path="res://tools/kingdom_tools/CountyTools.gd" type="Script" id=23]
+[ext_resource path="res://tools/kingdom_tools/settlement_tools/SettlementTools.gd" type="Script" id=24]
+[ext_resource path="res://Node2D.gd" type="Script" id=25]
 
 [sub_resource type="TileSet" id=1]
 0/name = "grass"
@@ -154,7 +156,9 @@
 0/shapes = [  ]
 0/z_index = 0
 
-[sub_resource type="TileSet" id=3]
+[sub_resource type="ShaderMaterial" id=3]
+
+[sub_resource type="TileSet" id=4]
 0/name = "trees"
 0/texture = ExtResource( 8 )
 0/tex_offset = Vector2( 0, -10 )
@@ -218,30 +222,28 @@
 2/shape_one_way_margin = 0.0
 2/shapes = [  ]
 2/z_index = 1
-
-[sub_resource type="TileSet" id=4]
+3/name = "settlement_camp.png 3"
+3/texture = ExtResource( 1 )
+3/tex_offset = Vector2( 0, -13 )
+3/material = SubResource( 3 )
+3/modulate = Color( 1, 1, 1, 1 )
+3/region = Rect2( 0, 0, 64, 32 )
+3/tile_mode = 0
+3/occluder_offset = Vector2( 0, 0 )
+3/navigation_offset = Vector2( 0, 0 )
+3/shape_offset = Vector2( 0, 0 )
+3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+3/shape_one_way = false
+3/shape_one_way_margin = 0.0
+3/shapes = [  ]
+3/z_index = 0
 
 [sub_resource type="TileSet" id=5]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="TileSet" id=6]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 2000, 2000 )
-current = true
-limit_left = 0
-limit_top = 0
-limit_right = 4000
-limit_bottom = 4000
-drag_margin_left = 0.9
-drag_margin_top = 0.85
-drag_margin_right = 0.9
-drag_margin_bottom = 0.85
-editor_draw_limits = true
-editor_draw_drag_margin = true
-script = ExtResource( 1 )
-speed = 20.0
-zoom_amount = 0.25
-zoom_min = Vector2( 0.1, 0.1 )
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 25 )
 
 [node name="Land" type="TileMap" parent="."]
 position = Vector2( 24, 4 )
@@ -266,7 +268,7 @@ format = 1
 script = ExtResource( 18 )
 
 [node name="Decor" type="TileMap" parent="Land"]
-tile_set = SubResource( 3 )
+tile_set = SubResource( 4 )
 cell_size = Vector2( 48, 30 )
 cell_half_offset = 4
 cell_y_sort = true
@@ -276,7 +278,7 @@ script = ExtResource( 9 )
 
 [node name="Counties" type="TileMap" parent="Land"]
 position = Vector2( 0, -5 )
-tile_set = SubResource( 4 )
+tile_set = SubResource( 5 )
 cell_size = Vector2( 48, 30 )
 cell_half_offset = 4
 cell_y_sort = true
@@ -284,8 +286,9 @@ centered_textures = true
 format = 1
 script = ExtResource( 21 )
 
-[node name="CountyBorders" type="TileMap" parent="Land/Counties"]
-tile_set = SubResource( 5 )
+[node name="CountyBorders" type="TileMap" parent="Land"]
+position = Vector2( 0, -5 )
+tile_set = SubResource( 6 )
 cell_size = Vector2( 48, 30 )
 cell_half_offset = 4
 cell_y_sort = true
@@ -295,6 +298,7 @@ script = ExtResource( 20 )
 match_edges = 56
 
 [node name="LandPreview" type="Polygon2D" parent="."]
+visible = false
 color = Color( 0.266667, 1, 0, 0.376471 )
 offset = Vector2( -48, -16 )
 polygon = PoolVector2Array( 32, 0, 17, 15, 31, 30, 65, 30, 79, 15, 64, 0 )
@@ -307,8 +311,9 @@ vertex_colors = PoolColorArray( 0.266667, 1, 0, 0.376471, 0.266667, 1, 0, 0, 0.2
 [node name="RiverPreview" type="Node2D" parent="."]
 
 [node name="RiverCenter" type="Polygon2D" parent="RiverPreview"]
+visible = false
 color = Color( 0, 0, 0, 1 )
-polygon = PoolVector2Array( 3, 0, 2, 2, -2, 2, -3, 0, -2, -2, 2, -2 )
+polygon = PoolVector2Array( 6, 6, -6, 6, -6, -6, 6, -6 )
 
 [node name="RiverEdge" type="Polygon2D" parent="RiverPreview"]
 color = Color( 0.392157, 0.388235, 1, 1 )
@@ -461,10 +466,9 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 script = ExtResource( 23 )
-camera_path = NodePath("../../../../Camera2D")
 counties_map_path = NodePath("../../../../Land/Counties")
 holding_selector_path = NodePath("../../../../HoldingPreview")
-county_border_path = NodePath("../../../../Land/Counties/CountyBorders")
+county_border_path = NodePath("../../../../Land/CountyBorders")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIElements/ToolTabs/CountyTools"]
 margin_left = 7.0
@@ -478,6 +482,16 @@ margin_bottom = 20.0
 align = 1
 script = ExtResource( 3 )
 
+[node name="SettlementTools" type="PanelContainer" parent="CanvasLayer/UIElements/ToolTabs"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -308.0
+margin_bottom = -120.0
+script = ExtResource( 24 )
+
 [node name="FPSCounter" type="Label" parent="CanvasLayer/UIElements"]
 anchor_left = 1.0
 anchor_right = 1.0
@@ -490,5 +504,5 @@ __meta__ = {
 }
 
 [connection signal="tab_changed" from="CanvasLayer/UIElements/ToolTabs" to="CanvasLayer/UIElements/ToolTabs" method="_on_ToolTabs_tab_changed"]
-[connection signal="item_selected" from="CanvasLayer/UIElements/ToolTabs/CountyTools/VBoxContainer/HoldingSelect" to="CanvasLayer/UIElements/ToolTabs/CountyTools/VBoxContainer/HoldingSelect" method="_on_HoldingSelect_item_selected"]
 [connection signal="item_selected" from="CanvasLayer/UIElements/ToolTabs/CountyTools/VBoxContainer/HoldingSelect" to="CanvasLayer/UIElements/ToolTabs/CountyTools" method="_on_HoldingSelect_item_selected"]
+[connection signal="item_selected" from="CanvasLayer/UIElements/ToolTabs/CountyTools/VBoxContainer/HoldingSelect" to="CanvasLayer/UIElements/ToolTabs/CountyTools/VBoxContainer/HoldingSelect" method="_on_HoldingSelect_item_selected"]

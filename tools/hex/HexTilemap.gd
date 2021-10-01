@@ -25,11 +25,9 @@ func check_on(current_cell: Vector2, check_cell: Vector2):
 		return true
 
 
-func set_edge_bit(x: int, y: int, edge: int, on: bool, tile_id_override = -1, print_stuff = false):
+func set_edge_bit(x: int, y: int, edge: int, on: bool, tile_id_override = -1):
 	var id = int(get_cell_id(Vector2(x, y)))
 	id ^= ((-(int(on))^id) & edge)
-#	if print_stuff:
-#		print(get_cell_coord_from_id(id))
 	set_cell(x, y, get_cell(x, y) if tile_id_override == -1 else tile_id_override, false, false, false, get_cell_coord_from_id(id))
 
 

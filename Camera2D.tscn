@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://tools/camera/Camera2D.gd" type="Script" id=1]
+
+[node name="Camera2D" type="Camera2D"]
+position = Vector2( 2000, 2000 )
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 4000
+limit_bottom = 4000
+drag_margin_left = 0.9
+drag_margin_top = 0.85
+drag_margin_right = 0.9
+drag_margin_bottom = 0.85
+editor_draw_limits = true
+editor_draw_drag_margin = true
+script = ExtResource( 1 )
+speed = 20.0
+zoom_amount = 0.25
+zoom_min = Vector2( 0.1, 0.1 )
