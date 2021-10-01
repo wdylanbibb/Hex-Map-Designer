@@ -3,13 +3,9 @@ extends "res://tools/hex/HexTilemap.gd"
 
 var _ready : bool
 
-onready var decor = $Decor
-onready var counties = $Counties
-onready var county_borders = $CountyBorders
-#onready var river = $River
-
 # warning-ignore:function_conflicts_variable
 func _ready() -> void:
+	yield(WorldRenderer, "ready")
 	
 	for cell in get_used_cells():
 		update_bitmask_area(cell)
@@ -17,46 +13,31 @@ func _ready() -> void:
 	randomize()
 	for cell in get_used_cells():
 		_set_decor(cell.x, cell.y, get_cellv(cell))
-	
-#	for cell in river.get_used_cells():
-#		river.update_bitmask_area(cell)
+
+	for cell in WorldRenderer.river.get_used_cells():
+		WorldRenderer.update_area(WorldRenderer.RIVER, cell)
 	
 	_ready = true
 
 
 func update_bitmask_area(position: Vector2):
 	.update_bitmask_area(position)
-	decor.update_bitmask_area(position)
-
-
-func update_bitmask_region(start: Vector2 = Vector2.ZERO, end: Vector2 = Vector2.ZERO):
-	.update_bitmask_region(start, end)
-	decor.update_bitmask_region(start, end)
+	WorldRenderer.update_area(WorldRenderer.DECOR, position)
 
 
 func set_cell(x: int, y: int, tile: int, flip_x: bool = false, flip_y: bool = false, transpose: bool = false, autotile_coord: Vector2 = Vector2( 0, 0 )):
 	.set_cell(x, y, tile, flip_x, flip_y, transpose, autotile_coord)
 	if _ready:
-		if not decor:
-			decor = $Decor
-		else:
-			_set_decor(x, y, tile)
+		_set_decor(x, y, tile)
 	if tile == -1:
-		if not counties.get_cell(x, y) == -1:
-			counties.set_cell(x, y, -1)
-			counties.update_bitmask_area(Vector2(x, y))
-			county_borders.set_cell(x, y, -1)
-			county_borders.update_bitmask_area(Vector2(x, y))
+		if not WorldRenderer.get_cell(WorldRenderer.FACTION, x, y) == -1:
+			WorldRenderer.set_cell(WorldRenderer.FACTION, x, y, -1)
+			WorldRenderer.update_bitmask_area(WorldRenderer.FACTION, Vector2(x, y))
 	else:
-		if not counties.get_cell(x, y) == -1:
-			if not counties.check_valid(Vector2(x, y)):
-				counties.set_cell(x, y, -1)
-				counties.update_bitmask_area(Vector2(x, y))
-				county_borders.set_cell(x, y, -1)
-				county_borders.update_bitmask_area(Vector2(x, y))
-
-func set_cellv(position: Vector2, tile: int, flip_x: bool = false, flip_y: bool = false, transpose: bool = false):
-	.set_cellv(position, tile, flip_x, flip_y, transpose)
+		if not WorldRenderer.get_cell(WorldRenderer.FACTION, x, y) == -1:
+			if not WorldRenderer.faction.check_valid(Vector2(x, y)):
+				WorldRenderer.set_cell(WorldRenderer.FACTION, x, y, -1)
+				WorldRenderer.update_area(WorldRenderer.FACTION, Vector2(x, y))
 
 
 func _set_decor(x: int, y: int, tile: int):
@@ -65,17 +46,16 @@ func _set_decor(x: int, y: int, tile: int):
 			pass
 		1: # Desert
 			if round(rand_range(1, 10)) == 5:
-# warning-ignore:narrowing_conversion
-				decor.set_cell(x, y, 1, bool(round(rand_range(0, 1))), false, false, Vector2(round(rand_range(0, 1)), 0))
+				WorldRenderer.set_cell(WorldRenderer.DECOR, x, y, 1)
 			else:
-				decor.set_cell(x, y, -1)
+				WorldRenderer.set_cell(WorldRenderer.DECOR, x, y, 1)
 		2: # Forest
-			decor.set_cell(x, y, 0)
+			WorldRenderer.set_cell(WorldRenderer.DECOR, x, y, 0)
 		3: # Water
 			pass
 		4: #Mountain
-			decor.set_cell(x, y, 2)
+			WorldRenderer.set_cell(WorldRenderer.DECOR, x, y, 2)
 		_:
-			decor.set_cell(x, y, -1)
-	decor.update_bitmask_area(Vector2(x, y))
+			WorldRenderer.set_cell(WorldRenderer.DECOR, x, y, -1)
+	WorldRenderer.update_area(WorldRenderer.DECOR, Vector2(x, y))
 	

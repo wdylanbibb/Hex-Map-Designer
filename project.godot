@@ -30,7 +30,7 @@ HexGrid="*res://global/HexGrid.tscn"
 Global="*res://global/Global.gd"
 HoldingsUnpacker="*res://global/HoldingsUnpacker.gd"
 MainCamera="*res://Camera2D.tscn"
-Icon="*res://icon.tscn"
+WorldRenderer="*res://WorldRenderer.tscn"
 
 [display]
 

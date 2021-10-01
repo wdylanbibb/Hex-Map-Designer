@@ -1,8 +1,8 @@
 extends MapTool
 
-export(NodePath) var counties_map_path
+#export(NodePath) var counties_map_path
 export(NodePath) var holding_selector_path
-export(NodePath) var county_border_path
+#export(NodePath) var county_border_path
 
 var selector_valid := preload("res://assets/sprites/icons/kingdom_selector.png")
 var selector_invalid := preload("res://assets/sprites/icons/kingdom_selector_invalid.png")
@@ -13,8 +13,8 @@ var _cell : Vector2
 
 var highlight_amount = .15
 
-onready var counties_map : TileMap = get_node(counties_map_path)
-onready var county_border = get_node(county_border_path)
+#onready var counties_map : TileMap = get_node(counties_map_path)
+#onready var county_border = get_node(county_border_path)
 onready var holding_selector : Node2D = get_node(holding_selector_path)
 
 onready var holding_select := $VBoxContainer/HoldingSelect
@@ -27,18 +27,18 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	var previous_cell = _cell
-	var hex_position = HexGrid.get_closest_hex(counties_map.get_global_mouse_position())
-	_cell = counties_map.world_to_map(hex_position)
+	var hex_position = HexGrid.get_closest_hex(WorldRenderer.get_global_mouse_position())
+	_cell = WorldRenderer.faction.world_to_map(hex_position)
 	_cell += Vector2(-1, -fmod(_cell.x, 2))
 	
-	var valid = counties_map.check_valid(_cell)
+	var valid = WorldRenderer.faction.check_valid(_cell)
 	
 	if event is InputEventMouseMotion:
 		if not previous_cell == _cell:
-			if not counties_map.get_cellv(previous_cell) == -1:
-				counties_map.set_highlight(counties_map.get_cellv(previous_cell), 0)
-			if not counties_map.get_cellv(_cell) == -1:
-				counties_map.set_highlight(counties_map.get_cellv(_cell), highlight_amount)
+			if not WorldRenderer.get_cell(WorldRenderer.FACTION, previous_cell.x, previous_cell.y) == -1:
+				WorldRenderer.faction.set_highlight(WorldRenderer.get_cell(WorldRenderer.FACTION, previous_cell.x, previous_cell.y), 0)
+			if not WorldRenderer.get_cell(WorldRenderer.FACTION, _cell.x, _cell.y) == -1:
+				WorldRenderer.faction.set_highlight(WorldRenderer.get_cell(WorldRenderer.FACTION, _cell.x, _cell.y), highlight_amount)
 		
 		holding_selector.position = hex_position
 		if valid:
@@ -61,26 +61,20 @@ func _unhandled_input(event: InputEvent) -> void:
 func _action(cell: Vector2):
 	match _button:
 		BUTTON_LEFT:
-			if not counties_map.get_cellv(cell) == -1:
-				counties_map.set_highlight(counties_map.get_cellv(cell), 0.0)
+			if not WorldRenderer.get_cell(WorldRenderer.FACTION, cell.x, cell.y) == -1:
+				WorldRenderer.faction.set_highlight(WorldRenderer.get_cell(WorldRenderer.FACTION, cell.x, cell.y), 0)
 			
-			counties_map.set_cellv(cell, holding_select.selected)
-			counties_map.update_bitmask_area(cell)
+			WorldRenderer.set_cell(WorldRenderer.FACTION, cell.x, cell.y, holding_select.selected)
+			WorldRenderer.update_area(WorldRenderer.FACTION, cell)
 			
-			county_border.set_cellv(cell, holding_select.selected)
-			county_border.update_bitmask_area(cell)
-			
-			if not counties_map.get_cellv(cell) == -1:
-				counties_map.set_highlight(counties_map.get_cellv(cell), highlight_amount)
+			if not WorldRenderer.get_cell(WorldRenderer.FACTION, cell.x, cell.y) == -1:
+				WorldRenderer.faction.set_highlight(WorldRenderer.get_cell(WorldRenderer.FACTION, cell.x, cell.y), highlight_amount)
 		BUTTON_RIGHT:
-			if not counties_map.get_cellv(cell) == -1:
-				counties_map.set_highlight(counties_map.get_cellv(cell), 0.0)
+			if not WorldRenderer.get_cell(WorldRenderer.FACTION, cell.x, cell.y) == -1:
+				WorldRenderer.faction.set_highlight(WorldRenderer.get_cell(WorldRenderer.FACTION, cell.x, cell.y), 0)
 			
-			counties_map.set_cellv(cell, -1)
-			counties_map.update_bitmask_area(cell)
-			
-			county_border.set_cellv(cell, -1)
-			county_border.update_bitmask_area(cell)
+			WorldRenderer.set_cell(WorldRenderer.FACTION, cell.x, cell.y, -1)
+			WorldRenderer.update_area(WorldRenderer.FACTION, cell)
 
 
 func _on_Camera_zoom_changed():

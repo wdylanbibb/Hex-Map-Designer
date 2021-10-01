@@ -4,7 +4,6 @@ var holding_texture = preload("res://assets/sprites/tiles/tilesets/holding_borde
 
 
 func _init() -> void:
-	
 	for holding in HoldingsUnpacker.Holdings:
 		var id = tile_set.get_last_unused_tile_id()
 		tile_set.create_tile(id)
