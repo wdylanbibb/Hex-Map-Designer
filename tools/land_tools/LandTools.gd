@@ -2,19 +2,22 @@ extends "res://tools/MapTool.gd"
 
 
 #export(NodePath) var land_map_path
-export(NodePath) var land_preview_path
+#export(NodePath) var land_preview_path
 
 var _pressed : bool
 var _button : int
 
 
 #onready var land_map = get_node(land_map_path)
-onready var land_preview = get_node(land_preview_path)
+onready var land_preview = $LandPreview
 onready var tile_select = $VBoxContainer/TileSelect
 onready var brush_size = $VBoxContainer/BrushSize
 onready var cell_position = $VBoxContainer/PanelContainer/CellPosition
 
 func _ready() -> void:
+	remove_child(land_preview)
+	owner.call_deferred("add_child", land_preview)
+	
 	for id in WorldRenderer.land.tile_set.get_tiles_ids():
 		tile_select.add_icon_item(
 			Global.get_texture_region(

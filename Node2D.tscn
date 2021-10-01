@@ -7,52 +7,10 @@
 [ext_resource path="res://tools/river_tools/RiverTools.gd" type="Script" id=16]
 [ext_resource path="res://tools/kingdom_tools/HoldingSelector.gd" type="Script" id=19]
 [ext_resource path="res://assets/sprites/icons/kingdom_selector.png" type="Texture" id=22]
-[ext_resource path="res://tools/kingdom_tools/CountyTools.gd" type="Script" id=23]
+[ext_resource path="res://tools/kingdom_tools/FactionTools.gd" type="Script" id=23]
 [ext_resource path="res://tools/kingdom_tools/settlement_tools/SettlementTools.gd" type="Script" id=24]
 
 [node name="Node2D" type="Node2D"]
-
-[node name="LandPreview" type="Polygon2D" parent="."]
-visible = false
-color = Color( 0.266667, 1, 0, 0.376471 )
-offset = Vector2( -48, -16 )
-polygon = PoolVector2Array( 32, 0, 17, 15, 31, 30, 65, 30, 79, 15, 64, 0 )
-
-[node name="Shadow" type="Polygon2D" parent="LandPreview"]
-offset = Vector2( -48, -16 )
-polygon = PoolVector2Array( 17, 15, 17, 25, 31, 40, 65, 40, 79, 25, 79, 15, 65, 30, 31, 30 )
-vertex_colors = PoolColorArray( 0.266667, 1, 0, 0.376471, 0.266667, 1, 0, 0, 0.266667, 1, 0, 0, 0.266667, 1, 0, 0, 0.266667, 1, 0, 0, 0.266667, 1, 0, 0.376471, 0.266667, 1, 0, 0.376471, 0.266667, 1, 0, 0.376471 )
-
-[node name="RiverPreview" type="Node2D" parent="."]
-
-[node name="RiverCenter" type="Polygon2D" parent="RiverPreview"]
-visible = false
-color = Color( 0, 0, 0, 1 )
-polygon = PoolVector2Array( 6, 6, -6, 6, -6, -6, 6, -6 )
-
-[node name="RiverEdge" type="Polygon2D" parent="RiverPreview"]
-color = Color( 0.392157, 0.388235, 1, 1 )
-polygon = PoolVector2Array( 0, -2, 2, 0, 0, 2, -2, 0 )
-
-[node name="HoldingPreview" type="Node2D" parent="."]
-script = ExtResource( 19 )
-
-[node name="Shadow2" type="Polygon2D" parent="HoldingPreview"]
-position = Vector2( 0, -0.999863 )
-rotation = -3.14159
-offset = Vector2( -48, -16 )
-polygon = PoolVector2Array( 17, 15, 17, 25, 31, 40, 65, 40, 79, 25, 79, 15, 65, 30, 31, 30 )
-vertex_colors = PoolColorArray( 0, 0.576471, 1, 1, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1 )
-
-[node name="Sprite" type="Sprite" parent="HoldingPreview"]
-texture = ExtResource( 22 )
-offset = Vector2( 0, -32 )
-
-[node name="Shadow" type="Polygon2D" parent="HoldingPreview"]
-position = Vector2( 0, -8.99986 )
-offset = Vector2( -48, -16 )
-polygon = PoolVector2Array( 17, 15, 17, 25, 31, 40, 65, 40, 79, 25, 79, 15, 65, 30, 31, 30 )
-vertex_colors = PoolColorArray( 0, 0.576471, 1, 0, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0 )
 
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
@@ -81,7 +39,7 @@ __meta__ = {
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -166.0
-margin_right = 326.0
+margin_right = 459.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_min_size = Vector2( 170, 0 )
@@ -92,6 +50,7 @@ __meta__ = {
 }
 
 [node name="LandTools" type="PanelContainer" parent="CanvasLayer/UIElements/ToolTabs"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -99,7 +58,6 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 script = ExtResource( 13 )
-land_preview_path = NodePath("../../../../LandPreview")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIElements/ToolTabs/LandTools"]
 margin_left = 7.0
@@ -141,6 +99,17 @@ margin_top = 7.0
 margin_right = 297.0
 margin_bottom = 21.0
 
+[node name="LandPreview" type="Polygon2D" parent="CanvasLayer/UIElements/ToolTabs/LandTools"]
+position = Vector2( -4, -586 )
+color = Color( 0.266667, 1, 0, 0.376471 )
+offset = Vector2( -48, -16 )
+polygon = PoolVector2Array( 32, 0, 17, 15, 31, 30, 65, 30, 79, 15, 64, 0 )
+
+[node name="Shadow" type="Polygon2D" parent="CanvasLayer/UIElements/ToolTabs/LandTools/LandPreview"]
+offset = Vector2( -48, -16 )
+polygon = PoolVector2Array( 17, 15, 17, 25, 31, 40, 65, 40, 79, 25, 79, 15, 65, 30, 31, 30 )
+vertex_colors = PoolColorArray( 0.266667, 1, 0, 0.376471, 0.266667, 1, 0, 0, 0.266667, 1, 0, 0, 0.266667, 1, 0, 0, 0.266667, 1, 0, 0, 0.266667, 1, 0, 0.376471, 0.266667, 1, 0, 0.376471, 0.266667, 1, 0, 0.376471 )
+
 [node name="RiverTools" type="PanelContainer" parent="CanvasLayer/UIElements/ToolTabs"]
 visible = false
 anchor_right = 1.0
@@ -150,7 +119,6 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 script = ExtResource( 16 )
-river_preview_path = NodePath("../../../../RiverPreview")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIElements/ToolTabs/RiverTools"]
 margin_left = 7.0
@@ -170,7 +138,19 @@ margin_top = 18.0
 margin_right = 304.0
 margin_bottom = 32.0
 
-[node name="CountyTools" type="PanelContainer" parent="CanvasLayer/UIElements/ToolTabs"]
+[node name="RiverPreview" type="Node2D" parent="CanvasLayer/UIElements/ToolTabs/RiverTools"]
+position = Vector2( -4, -586 )
+
+[node name="RiverCenter" type="Polygon2D" parent="CanvasLayer/UIElements/ToolTabs/RiverTools/RiverPreview"]
+visible = false
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( 6, 6, -6, 6, -6, -6, 6, -6 )
+
+[node name="RiverEdge" type="Polygon2D" parent="CanvasLayer/UIElements/ToolTabs/RiverTools/RiverPreview"]
+color = Color( 0.392157, 0.388235, 1, 1 )
+polygon = PoolVector2Array( 0, -2, 2, 0, 0, 2, -2, 0 )
+
+[node name="FactionTools" type="PanelContainer" parent="CanvasLayer/UIElements/ToolTabs"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -179,29 +159,79 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 script = ExtResource( 23 )
-holding_selector_path = NodePath("../../../../HoldingPreview")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIElements/ToolTabs/CountyTools"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIElements/ToolTabs/FactionTools"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 311.0
 margin_bottom = 123.0
 
-[node name="HoldingSelect" type="OptionButton" parent="CanvasLayer/UIElements/ToolTabs/CountyTools/VBoxContainer"]
+[node name="HoldingSelect" type="OptionButton" parent="CanvasLayer/UIElements/ToolTabs/FactionTools/VBoxContainer"]
 margin_right = 304.0
 margin_bottom = 20.0
 align = 1
 script = ExtResource( 3 )
 
+[node name="HoldingPreview" type="Node2D" parent="CanvasLayer/UIElements/ToolTabs/FactionTools"]
+position = Vector2( -4, -586 )
+script = ExtResource( 19 )
+
+[node name="Shadow2" type="Polygon2D" parent="CanvasLayer/UIElements/ToolTabs/FactionTools/HoldingPreview"]
+position = Vector2( 0, -0.999863 )
+rotation = -3.14159
+offset = Vector2( -48, -16 )
+polygon = PoolVector2Array( 17, 15, 17, 25, 31, 40, 65, 40, 79, 25, 79, 15, 65, 30, 31, 30 )
+vertex_colors = PoolColorArray( 0, 0.576471, 1, 1, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1 )
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer/UIElements/ToolTabs/FactionTools/HoldingPreview"]
+texture = ExtResource( 22 )
+offset = Vector2( 0, -32 )
+
+[node name="Shadow" type="Polygon2D" parent="CanvasLayer/UIElements/ToolTabs/FactionTools/HoldingPreview"]
+position = Vector2( 0, -8.99986 )
+offset = Vector2( -48, -16 )
+polygon = PoolVector2Array( 17, 15, 17, 25, 31, 40, 65, 40, 79, 25, 79, 15, 65, 30, 31, 30 )
+vertex_colors = PoolColorArray( 0, 0.576471, 1, 0, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0 )
+
 [node name="SettlementTools" type="PanelContainer" parent="CanvasLayer/UIElements/ToolTabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 24 )
+
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer/UIElements/ToolTabs/SettlementTools"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 444.0
+margin_bottom = 123.0
+
+[node name="Place Mode" type="PanelContainer" parent="CanvasLayer/UIElements/ToolTabs/SettlementTools/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Edit Mode" type="PanelContainer" parent="CanvasLayer/UIElements/ToolTabs/SettlementTools/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
 margin_top = 32.0
-margin_right = -308.0
-margin_bottom = -120.0
-script = ExtResource( 24 )
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="HoldingPreview" type="Node2D" parent="CanvasLayer/UIElements/ToolTabs/SettlementTools"]
+position = Vector2( -4, -586 )
+script = ExtResource( 19 )
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer/UIElements/ToolTabs/SettlementTools/HoldingPreview"]
+texture = ExtResource( 22 )
+offset = Vector2( 0, -32 )
 
 [node name="FPSCounter" type="Label" parent="CanvasLayer/UIElements"]
 anchor_left = 1.0
@@ -215,5 +245,5 @@ __meta__ = {
 }
 
 [connection signal="tab_changed" from="CanvasLayer/UIElements/ToolTabs" to="CanvasLayer/UIElements/ToolTabs" method="_on_ToolTabs_tab_changed"]
-[connection signal="item_selected" from="CanvasLayer/UIElements/ToolTabs/CountyTools/VBoxContainer/HoldingSelect" to="CanvasLayer/UIElements/ToolTabs/CountyTools" method="_on_HoldingSelect_item_selected"]
-[connection signal="item_selected" from="CanvasLayer/UIElements/ToolTabs/CountyTools/VBoxContainer/HoldingSelect" to="CanvasLayer/UIElements/ToolTabs/CountyTools/VBoxContainer/HoldingSelect" method="_on_HoldingSelect_item_selected"]
+[connection signal="item_selected" from="CanvasLayer/UIElements/ToolTabs/FactionTools/VBoxContainer/HoldingSelect" to="CanvasLayer/UIElements/ToolTabs/FactionTools/VBoxContainer/HoldingSelect" method="_on_HoldingSelect_item_selected"]
+[connection signal="item_selected" from="CanvasLayer/UIElements/ToolTabs/FactionTools/VBoxContainer/HoldingSelect" to="CanvasLayer/UIElements/ToolTabs/FactionTools" method="_on_HoldingSelect_item_selected"]

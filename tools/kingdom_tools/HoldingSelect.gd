@@ -4,8 +4,8 @@ var HoldingPanel := preload("res://tools/kingdom_tools/HoldingPanel.tscn")
 
 
 func _ready() -> void:
-	for h in range(HoldingsUnpacker.Holdings.size()):
-		add_holding(HoldingsUnpacker.Holdings[h], h)
+	for f in range(HoldingsUnpacker.Factions.size()):
+		add_holding(HoldingsUnpacker.Factions[f], f)
 	show_correct_children(0)
 
 

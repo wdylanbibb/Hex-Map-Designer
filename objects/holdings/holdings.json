@@ -1,19 +1,19 @@
 {
-	"holdings": [
+	"factions": [
 		{
-			"name": "County1",
+			"name": "Faction1",
 			"color": "#6bd1e8"
 		},
 		{
-			"name": "County2",
+			"name": "Faction2",
 			"color": "#ff9a42"
 		},
 		{
-			"name": "County3",
+			"name": "Faction3",
 			"color": "#42ff94"
 		},
 		{
-			"name": "County4",
+			"name": "Faction4",
 			"color": "#ff4262"
 		}
 	]

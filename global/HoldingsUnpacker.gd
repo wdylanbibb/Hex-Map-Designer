@@ -1,19 +1,19 @@
 extends Node
 
 
-var Holdings
+var Factions
 
 func _init() -> void:
 	var file = File.new()
 	file.open("objects/holdings/holdings.json", File.READ)
 	var content = file.get_as_text()
-	Holdings = JSON.parse(content).result
-	if typeof(Holdings)==TYPE_DICTIONARY:
+	Factions = JSON.parse(content).result
+	if typeof(Factions)==TYPE_DICTIONARY:
 		pass
 	else:
 		print("Unexpected results found in holdings.json.")
-		Holdings = null
+		Factions = null
 		return
 	file.close()
 	
-	Holdings = Holdings.holdings
+	Factions = Factions.factions

@@ -29,8 +29,8 @@ config/icon="res://icon.png"
 HexGrid="*res://global/HexGrid.tscn"
 Global="*res://global/Global.gd"
 HoldingsUnpacker="*res://global/HoldingsUnpacker.gd"
-MainCamera="*res://Camera2D.tscn"
-WorldRenderer="*res://WorldRenderer.tscn"
+MainCamera="*res://global/Camera2D.tscn"
+WorldRenderer="*res://global/WorldRenderer.tscn"
 
 [display]
 

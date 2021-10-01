@@ -9,7 +9,7 @@ enum {
 
 
 onready var land = $Land
-onready var river = $River
+onready var river = $Land/River
 onready var decor = $Decor
 onready var faction = $Faction
 onready var faction_borders = $Faction/FactionBorders

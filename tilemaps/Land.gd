@@ -56,6 +56,6 @@ func _set_decor(x: int, y: int, tile: int):
 		4: #Mountain
 			WorldRenderer.set_cell(WorldRenderer.DECOR, x, y, 2)
 		_:
-			WorldRenderer.set_cell(WorldRenderer.DECOR, x, y, -1)
+			WorldRenderer.set_cell(WorldRenderer.DECOR, x, y, WorldRenderer.get_cell(WorldRenderer.DECOR, x, y))
 	WorldRenderer.update_area(WorldRenderer.DECOR, Vector2(x, y))
 	

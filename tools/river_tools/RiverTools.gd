@@ -1,7 +1,7 @@
 extends "res://tools/MapTool.gd"
 
 #export(NodePath) var river_map_path
-export(NodePath) var river_preview_path
+#export(NodePath) var river_preview_path
 
 var _pressed : bool
 var _button : int
@@ -9,14 +9,20 @@ var _button : int
 
 #onready var river_map : TileMap = get_node(river_map_path)
 
-onready var river_preview = get_node(river_preview_path)
-onready var river_center = river_preview.get_node("RiverCenter")
-onready var river_edge = river_preview.get_node("RiverEdge")
+#onready var river_preview = get_node(river_preview_path)
+#onready var river_center = river_preview.get_node("RiverCenter")
+#onready var river_edge = river_preview.get_node("RiverEdge")
+
+onready var river_preview = $RiverPreview
+onready var river_center = $RiverPreview/RiverCenter
+onready var river_edge = $RiverPreview/RiverEdge
 
 onready var cell_position = $VBoxContainer/CellPosition
 onready var river_id = $VBoxContainer/RiverID
 
-#func _ready() -> void:
+func _ready() -> void:
+	remove_child(river_preview)
+	owner.call_deferred("add_child", river_preview)
 #	MainCamera.connect("zoom_changed", self, "_on_Camera_zoom_changed")
 #
 #

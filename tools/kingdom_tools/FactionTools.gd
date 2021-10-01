@@ -1,7 +1,7 @@
 extends MapTool
 
 #export(NodePath) var counties_map_path
-export(NodePath) var holding_selector_path
+#export(NodePath) var holding_selector_path
 #export(NodePath) var county_border_path
 
 var selector_valid := preload("res://assets/sprites/icons/kingdom_selector.png")
@@ -15,11 +15,15 @@ var highlight_amount = .15
 
 #onready var counties_map : TileMap = get_node(counties_map_path)
 #onready var county_border = get_node(county_border_path)
-onready var holding_selector : Node2D = get_node(holding_selector_path)
+#onready var holding_selector : Node2D = get_node(holding_selector_path)
+onready var holding_selector : Node2D = $HoldingPreview
 
 onready var holding_select := $VBoxContainer/HoldingSelect
 
 func _ready() -> void:
+	remove_child(holding_selector)
+	owner.call_deferred("add_child", holding_selector)
+	
 	MainCamera.connect("zoom_changed", self, "_on_Camera_zoom_changed")
 	
 #	_on_HoldingSelect_item_selected(holding_select.selected)
@@ -90,4 +94,4 @@ func set_disabled(d: bool) -> void:
 
 
 func _on_HoldingSelect_item_selected(index: int) -> void:
-	holding_selector.change_border_color(HoldingsUnpacker.Holdings[index].color)
+	holding_selector.change_border_color(HoldingsUnpacker.Factions[index].color)
