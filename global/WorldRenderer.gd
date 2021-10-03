@@ -14,6 +14,65 @@ onready var decor = $Decor
 onready var faction = $Faction
 onready var faction_borders = $Faction/FactionBorders
 
+onready var camera = $Camera2D
+
+
+func get_save_data() -> Dictionary:
+	var data : Dictionary = {
+		"map":
+			{
+			"data":
+				{
+					"camera_position":camera.position,
+					"rect":
+							Vector2(
+								abs(camera.limit_left) + abs(camera.limit_right), 
+								abs(camera.limit_top) + abs(camera.limit_bottom)
+								)
+				},
+			"cells":
+				{
+				}
+			},
+		"factions": HoldingsUnpacker.FactionResources
+	}
+	
+	for cell in land.get_used_cells():
+		data.map.cells[cell] = {
+			"land": {"id":land.get_cellv(cell),"coord":land.get_cell_autotile_coord(cell.x, cell.y)},
+			"river": {"id":river.get_cellv(cell),"coord":river.get_cell_autotile_coord(cell.x, cell.y)},
+			"faction": faction.get_cellv(cell),
+			"city": decor.get_cellv(cell) == 3
+		}
+		
+	
+	return data
+
+
+func load_save(save: SaveGame):
+	var save_data = save.data
+	
+	land.clear()
+	river.clear()
+	decor.clear()
+	faction.clear()
+	faction_borders.clear()
+	
+	faction.tile_set = TileSet.new()
+	faction.create_faction_tiles(save_data.factions)
+	
+	faction_borders.tile_set = TileSet.new()
+	faction_borders.create_faction_tiles(save_data.factions)
+	
+	for cell in save_data.map.cells:
+		land.set_cell(cell.x, cell.y, save_data.map.cells[cell].land.id, false, false, false, save_data.map.cells[cell].land.coord)
+		river.set_cell(cell.x, cell.y, save_data.map.cells[cell].river.id, false, false, false, save_data.map.cells[cell].river.coord)
+		_set_faction_cell(cell.x, cell.y, save_data.map.cells[cell].faction)
+		if save_data.map.cells[cell].city:
+			decor.set_cellv(cell, 3)
+		update_area(LAND, cell)
+		update_area(FACTION, cell)
+
 
 func set_cell(layer, x, y, tile):
 	match layer:
@@ -99,3 +158,9 @@ func _update_decor_area(position):
 func _update_faction_area(position):
 	faction.update_bitmask_area(position)
 	faction_borders.update_bitmask_area(position)
+
+
+func get_global_mouse_position():
+	var v = get_viewport().get_parent().rect_size / Vector2(1110, 720)
+	var r = Vector2(1280, 720) / get_viewport().get_parent().get_viewport().size
+	return get_canvas_transform().affine_inverse().xform(get_viewport().get_mouse_position()*r*v)

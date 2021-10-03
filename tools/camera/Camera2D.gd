@@ -9,21 +9,23 @@ export var zoom_max : Vector2 = Vector2(3, 3)
 
 var mouse_pos : Vector2
 var zoom_factor = 1.0
-var correct_position : Vector2 setget set_correct_position, get_correct_position
+var correct_position : Vector2
 
 var pressed : bool
 
 var movement : Vector2
 
 signal zoom_changed
+signal position_changed
 
 
 func _ready():
-	get_tree().get_root().connect("size_changed", self, "_on_Window_size_changed")
+	get_viewport().connect("size_changed", self, "_on_Window_size_changed")
 	_on_Window_size_changed()
 
 
 func _on_Window_size_changed():
+	
 	var max_zoom = Vector2((limit_right-limit_left) / get_viewport_rect().size.x, (limit_bottom-limit_top) / get_viewport_rect().size.y)
 	zoom_max = Vector2(max_zoom.x, max_zoom.x) if max_zoom.x < max_zoom.y else Vector2(max_zoom.y, max_zoom.y)
 	
@@ -31,16 +33,9 @@ func _on_Window_size_changed():
 	zoom.y = clamp(zoom.y, zoom_min.y, zoom_max.y)
 
 
-func set_correct_position(p):
-	correct_position = p
-
-
-func get_correct_position():
-	return correct_position
-
-
 func _process(delta):
 	#smooth movement
+	var previous_pos = position
 	var inpx = (int(Input.is_action_pressed("ui_right"))
 					   - int(Input.is_action_pressed("ui_left")))
 	var inpy = (int(Input.is_action_pressed("ui_down"))
@@ -70,15 +65,18 @@ func _process(delta):
 	)
 	
 	correct_position = global_position
+	if not position == previous_pos:
+		emit_signal("position_changed")
 
 
 func _input(event):
+	var previous_position = position
 	
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_WHEEL_UP or event.button_index == BUTTON_WHEEL_DOWN:
 			if event.is_pressed():
 			
-				var previous_mouse_position = get_global_mouse_position()
+				var previous_mouse_position = get_canvas_transform().affine_inverse().xform(get_viewport().get_mouse_position()*(Vector2(1280, 720) / get_viewport().get_parent().get_viewport().size)*(get_viewport().get_parent().rect_size / Vector2(1110, 720)))
 				var previous_zoom = zoom
 				
 				if event.button_index == BUTTON_WHEEL_UP:
@@ -98,7 +96,9 @@ func _input(event):
 				if not zoom == previous_zoom:
 					emit_signal("zoom_changed")
 				
-				position -= get_global_mouse_position() - previous_mouse_position
+				position -= (get_canvas_transform().affine_inverse().xform(get_viewport().get_mouse_position()*(Vector2(1280, 720) / get_viewport().get_parent().get_viewport().size)*(get_viewport().get_parent().rect_size / Vector2(1100, 720)))) - previous_mouse_position
+				if not previous_position == position:
+					emit_signal("position_changed")
 				
 			else:
 				zoom_factor = 1
@@ -111,6 +111,7 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		if pressed:
 			position -= event.relative / (Vector2.ONE/zoom)
+			emit_signal("position_changed")
 	
 	if event is InputEventMouse:
 		mouse_pos = event.position

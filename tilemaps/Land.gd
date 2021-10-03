@@ -1,11 +1,14 @@
 extends "res://tools/hex/HexTilemap.gd"
 
 
+
 var _ready : bool
 
+
+onready var Renderer = get_parent()
 # warning-ignore:function_conflicts_variable
 func _ready() -> void:
-	yield(WorldRenderer, "ready")
+	yield(get_parent(), "ready")
 	
 	for cell in get_used_cells():
 		update_bitmask_area(cell)
@@ -14,15 +17,15 @@ func _ready() -> void:
 	for cell in get_used_cells():
 		_set_decor(cell.x, cell.y, get_cellv(cell))
 
-	for cell in WorldRenderer.river.get_used_cells():
-		WorldRenderer.update_area(WorldRenderer.RIVER, cell)
+	for cell in Renderer.river.get_used_cells():
+		Renderer.update_area(Renderer.RIVER, cell)
 	
 	_ready = true
 
 
 func update_bitmask_area(position: Vector2):
 	.update_bitmask_area(position)
-	WorldRenderer.update_area(WorldRenderer.DECOR, position)
+	Renderer.update_area(Renderer.DECOR, position)
 
 
 func set_cell(x: int, y: int, tile: int, flip_x: bool = false, flip_y: bool = false, transpose: bool = false, autotile_coord: Vector2 = Vector2( 0, 0 )):
@@ -30,32 +33,35 @@ func set_cell(x: int, y: int, tile: int, flip_x: bool = false, flip_y: bool = fa
 	if _ready:
 		_set_decor(x, y, tile)
 	if tile == -1:
-		if not WorldRenderer.get_cell(WorldRenderer.FACTION, x, y) == -1:
-			WorldRenderer.set_cell(WorldRenderer.FACTION, x, y, -1)
-			WorldRenderer.update_bitmask_area(WorldRenderer.FACTION, Vector2(x, y))
+		if not Renderer.get_cell(Renderer.FACTION, x, y) == -1:
+			Renderer.set_cell(Renderer.FACTION, x, y, -1)
+			Renderer.update_area(Renderer.FACTION, Vector2(x, y))
 	else:
-		if not WorldRenderer.get_cell(WorldRenderer.FACTION, x, y) == -1:
-			if not WorldRenderer.faction.check_valid(Vector2(x, y)):
-				WorldRenderer.set_cell(WorldRenderer.FACTION, x, y, -1)
-				WorldRenderer.update_area(WorldRenderer.FACTION, Vector2(x, y))
+		if not Renderer.get_cell(Renderer.FACTION, x, y) == -1:
+			if not Renderer.faction.check_valid(Vector2(x, y)):
+				Renderer.set_cell(Renderer.FACTION, x, y, -1)
+				Renderer.update_area(Renderer.FACTION, Vector2(x, y))
 
 
 func _set_decor(x: int, y: int, tile: int):
-	match tile:
-		0: # Grass
-			pass
-		1: # Desert
-			if round(rand_range(1, 10)) == 5:
-				WorldRenderer.set_cell(WorldRenderer.DECOR, x, y, 1)
-			else:
-				WorldRenderer.set_cell(WorldRenderer.DECOR, x, y, 1)
-		2: # Forest
-			WorldRenderer.set_cell(WorldRenderer.DECOR, x, y, 0)
-		3: # Water
-			pass
-		4: #Mountain
-			WorldRenderer.set_cell(WorldRenderer.DECOR, x, y, 2)
-		_:
-			WorldRenderer.set_cell(WorldRenderer.DECOR, x, y, WorldRenderer.get_cell(WorldRenderer.DECOR, x, y))
-	WorldRenderer.update_area(WorldRenderer.DECOR, Vector2(x, y))
+	if Renderer.get_cell(Renderer.DECOR, x, y) == 3:
+		pass
+	else:
+		match tile:
+			0: #Grass
+				Renderer.set_cell(Renderer.DECOR, x, y, -1)
+			1: # Desert
+				if round(rand_range(1, 10)) == 5:
+					Renderer.set_cell(Renderer.DECOR, x, y, 1)
+				else:
+					Renderer.set_cell(Renderer.DECOR, x, y, 1)
+			2: # Forest
+				Renderer.set_cell(Renderer.DECOR, x, y, 0)
+			3: #Water
+				Renderer.set_cell(Renderer.DECOR, x, y, -1)
+			4: #Mountain
+				Renderer.set_cell(Renderer.DECOR, x, y, 2)
+			_:
+				Renderer.set_cell(Renderer.DECOR, x, y, -1)
+		Renderer.update_area(Renderer.DECOR, Vector2(x, y))
 	

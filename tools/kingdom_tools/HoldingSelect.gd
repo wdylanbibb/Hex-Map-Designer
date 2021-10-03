@@ -4,9 +4,19 @@ var HoldingPanel := preload("res://tools/kingdom_tools/HoldingPanel.tscn")
 
 
 func _ready() -> void:
-	for f in range(HoldingsUnpacker.Factions.size()):
-		add_holding(HoldingsUnpacker.Factions[f], f)
+	
+	
+	for f in range(HoldingsUnpacker.FactionResources.size()):
+		add_holding(HoldingsUnpacker.FactionResources[f], f)
 	show_correct_children(0)
+
+
+func _on_HoldingsUnpacker_faction_resources_changed():
+	for item in range(get_item_count()):
+		remove_item(0)
+	for faction in range(HoldingsUnpacker.FactionResources.size()):
+		add_holding(HoldingsUnpacker.FactionResources[faction], faction)
+	selected = 0
 
 
 func add_holding(holding, id):

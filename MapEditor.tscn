@@ -1,0 +1,390 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://MapEditor.gd" type="Script" id=1]
+[ext_resource path="res://tools/kingdom_tools/HoldingSelect.gd" type="Script" id=2]
+[ext_resource path="res://tools/kingdom_tools/HoldingSelector.gd" type="Script" id=3]
+[ext_resource path="res://menu/scripts/UIElements.gd" type="Script" id=4]
+[ext_resource path="res://menu/scripts/ToolTabs.gd" type="Script" id=5]
+[ext_resource path="res://tilemaps/WorldRenderer.tscn" type="PackedScene" id=6]
+[ext_resource path="res://tools/land_tools/LandTools.gd" type="Script" id=7]
+[ext_resource path="res://tools/river_tools/RiverTools.gd" type="Script" id=8]
+[ext_resource path="res://tools/kingdom_tools/FactionTools.gd" type="Script" id=9]
+[ext_resource path="res://tools/kingdom_tools/settlement_tools/SettlementTools.gd" type="Script" id=10]
+[ext_resource path="res://assets/sprites/icons/kingdom_selector.png" type="Texture" id=11]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[node name="MapEditor" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HBoxContainer" type="HSplitContainer" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 10
+split_offset = 906
+dragger_visibility = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Canvas" type="MarginContainer" parent="CanvasLayer/HBoxContainer"]
+margin_right = 1110.0
+margin_bottom = 720.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/HBoxContainer/Canvas"]
+margin_right = 1110.0
+margin_bottom = 720.0
+
+[node name="ViewportContainer" type="ViewportContainer" parent="CanvasLayer/HBoxContainer/Canvas/CenterContainer"]
+margin_right = 1110.0
+margin_bottom = 720.0
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="CanvasLayer/HBoxContainer/Canvas/CenterContainer/ViewportContainer"]
+size = Vector2( 1110, 720 )
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="WorldRenderer" parent="CanvasLayer/HBoxContainer/Canvas/CenterContainer/ViewportContainer/Viewport" instance=ExtResource( 6 )]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/Canvas"]
+margin_right = 1110.0
+margin_bottom = 720.0
+mouse_filter = 2
+custom_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/Canvas/VBoxContainer"]
+margin_right = 1110.0
+margin_bottom = 12.0
+mouse_filter = 2
+custom_constants/separation = 0
+
+[node name="TextureRect" type="Panel" parent="CanvasLayer/HBoxContainer/Canvas/VBoxContainer/HBoxContainer"]
+margin_right = 10.0
+margin_bottom = 12.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.01
+custom_styles/panel = SubResource( 1 )
+
+[node name="HScrollBar" type="HScrollBar" parent="CanvasLayer/HBoxContainer/Canvas/VBoxContainer/HBoxContainer"]
+margin_left = 10.0
+margin_right = 1110.0
+margin_bottom = 12.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VScrollBar" type="VScrollBar" parent="CanvasLayer/HBoxContainer/Canvas/VBoxContainer"]
+margin_top = 12.0
+margin_right = 12.0
+margin_bottom = 720.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UIElements" type="MarginContainer" parent="CanvasLayer/HBoxContainer"]
+margin_left = 1110.0
+margin_right = 1280.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 0
+custom_constants/margin_top = 0
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 0
+script = ExtResource( 4 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/UIElements"]
+margin_right = 170.0
+margin_bottom = 720.0
+
+[node name="ToolTabs" type="TabContainer" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer"]
+margin_right = 170.0
+margin_bottom = 678.0
+rect_min_size = Vector2( 170, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+use_hidden_tabs_for_min_size = true
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LandTools" type="PanelContainer" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 7 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/LandTools"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 155.0
+margin_bottom = 635.0
+custom_constants/separation = 10
+
+[node name="TileSelect" type="OptionButton" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/LandTools/VBoxContainer"]
+margin_right = 148.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BrushSizeLabel" type="Label" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/LandTools/VBoxContainer"]
+margin_top = 30.0
+margin_right = 148.0
+margin_bottom = 44.0
+text = "Brush Size"
+valign = 1
+
+[node name="BrushSize" type="SpinBox" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/LandTools/VBoxContainer"]
+margin_top = 54.0
+margin_right = 148.0
+margin_bottom = 78.0
+min_value = 1.0
+max_value = 5.0
+value = 1.0
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/LandTools/VBoxContainer"]
+margin_top = 88.0
+margin_right = 148.0
+margin_bottom = 116.0
+
+[node name="CellPosition" type="Label" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/LandTools/VBoxContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 141.0
+margin_bottom = 21.0
+
+[node name="LandPreview" type="Polygon2D" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/LandTools"]
+z_index = 1
+color = Color( 0.266667, 1, 0, 0.376471 )
+offset = Vector2( -48, -16 )
+polygon = PoolVector2Array( 32, 0, 17, 15, 31, 30, 65, 30, 79, 15, 64, 0 )
+
+[node name="Shadow" type="Polygon2D" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/LandTools/LandPreview"]
+offset = Vector2( -48, -16 )
+polygon = PoolVector2Array( 17, 15, 17, 25, 31, 40, 65, 40, 79, 25, 79, 15, 65, 30, 31, 30 )
+vertex_colors = PoolColorArray( 0.266667, 1, 0, 0.376471, 0.266667, 1, 0, 0, 0.266667, 1, 0, 0, 0.266667, 1, 0, 0, 0.266667, 1, 0, 0, 0.266667, 1, 0, 0.376471, 0.266667, 1, 0, 0.376471, 0.266667, 1, 0, 0.376471 )
+
+[node name="RiverTools" type="PanelContainer" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 8 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/RiverTools"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 155.0
+margin_bottom = 677.0
+
+[node name="CellPosition" type="Label" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/RiverTools/VBoxContainer"]
+margin_right = 148.0
+margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RiverID" type="Label" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/RiverTools/VBoxContainer"]
+margin_top = 18.0
+margin_right = 148.0
+margin_bottom = 32.0
+
+[node name="RiverPreview" type="Node2D" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/RiverTools"]
+z_index = 1
+
+[node name="RiverCenter" type="Polygon2D" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/RiverTools/RiverPreview"]
+visible = false
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( 6, 6, -6, 6, -6, -6, 6, -6 )
+
+[node name="RiverEdge" type="Polygon2D" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/RiverTools/RiverPreview"]
+color = Color( 0.392157, 0.388235, 1, 1 )
+polygon = PoolVector2Array( 0, -2, 2, 0, 0, 2, -2, 0 )
+
+[node name="FactionTools" type="PanelContainer" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 9 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/FactionTools"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1265.0
+margin_bottom = 123.0
+
+[node name="HoldingSelect" type="OptionButton" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/FactionTools/VBoxContainer"]
+margin_right = 1258.0
+margin_bottom = 20.0
+align = 1
+script = ExtResource( 2 )
+
+[node name="HoldingPreview" type="Node2D" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/FactionTools"]
+z_index = 1
+script = ExtResource( 3 )
+
+[node name="Shadow2" type="Polygon2D" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/FactionTools/HoldingPreview"]
+position = Vector2( 0, -0.999863 )
+rotation = -3.14159
+offset = Vector2( -48, -16 )
+polygon = PoolVector2Array( 17, 15, 17, 25, 31, 40, 65, 40, 79, 25, 79, 15, 65, 30, 31, 30 )
+vertex_colors = PoolColorArray( 0, 0.576471, 1, 1, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1 )
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/FactionTools/HoldingPreview"]
+texture = ExtResource( 11 )
+offset = Vector2( 0, -32 )
+
+[node name="Shadow" type="Polygon2D" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/FactionTools/HoldingPreview"]
+position = Vector2( 0, -8.99986 )
+offset = Vector2( -48, -16 )
+polygon = PoolVector2Array( 17, 15, 17, 25, 31, 40, 65, 40, 79, 25, 79, 15, 65, 30, 31, 30 )
+vertex_colors = PoolColorArray( 0, 0.576471, 1, 0, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0 )
+
+[node name="SettlementTools" type="PanelContainer" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 10 )
+
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/SettlementTools"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1265.0
+margin_bottom = 123.0
+
+[node name="Place Mode" type="PanelContainer" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/SettlementTools/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Edit Mode" type="PanelContainer" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/SettlementTools/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="HoldingPreview" type="Node2D" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/SettlementTools"]
+z_index = 1
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/SettlementTools/HoldingPreview"]
+texture = ExtResource( 11 )
+offset = Vector2( 0, -32 )
+
+[node name="Shadow2" type="Polygon2D" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/SettlementTools/HoldingPreview"]
+visible = false
+position = Vector2( 0, -0.999863 )
+rotation = -3.14159
+offset = Vector2( -48, -16 )
+polygon = PoolVector2Array( 17, 15, 17, 25, 31, 40, 65, 40, 79, 25, 79, 15, 65, 30, 31, 30 )
+vertex_colors = PoolColorArray( 0, 0.576471, 1, 1, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1 )
+
+[node name="Shadow" type="Polygon2D" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/SettlementTools/HoldingPreview"]
+visible = false
+position = Vector2( 0, -8.99986 )
+offset = Vector2( -48, -16 )
+polygon = PoolVector2Array( 17, 15, 17, 25, 31, 40, 65, 40, 79, 25, 79, 15, 65, 30, 31, 30 )
+vertex_colors = PoolColorArray( 0, 0.576471, 1, 0, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 1, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0, 0, 0.576471, 1, 0 )
+
+[node name="FPSCounter" type="Label" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer"]
+margin_top = 682.0
+margin_right = 170.0
+margin_bottom = 696.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 8
+text = "FPS"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer"]
+margin_top = 700.0
+margin_right = 170.0
+margin_bottom = 720.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/MarginContainer"]
+margin_right = 170.0
+margin_bottom = 20.0
+
+[node name="SaveButton" type="Button" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/MarginContainer/HBoxContainer"]
+margin_right = 83.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Save"
+
+[node name="LoadButton" type="Button" parent="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/MarginContainer/HBoxContainer"]
+margin_left = 87.0
+margin_right = 170.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Load"
+
+[node name="SaveDialog" type="FileDialog" parent="CanvasLayer"]
+margin_right = 549.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 550, 250 )
+filters = PoolStringArray( "*.tres ; Save Game" )
+
+[node name="LoadDialog" type="FileDialog" parent="CanvasLayer"]
+margin_left = 1255.0
+margin_right = 1805.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 550, 250 )
+window_title = "Open a File"
+mode = 0
+filters = PoolStringArray( "*.tres ; Save Game" )
+
+[connection signal="mouse_entered" from="CanvasLayer/HBoxContainer/Canvas/CenterContainer/ViewportContainer" to="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs" method="_on_ViewportContainer_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/HBoxContainer/Canvas/CenterContainer/ViewportContainer" to="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs" method="_on_ViewportContainer_mouse_exited"]
+[connection signal="scrolling" from="CanvasLayer/HBoxContainer/Canvas/VBoxContainer/HBoxContainer/HScrollBar" to="CanvasLayer/HBoxContainer/UIElements" method="_on_HScrollBar_scrolling"]
+[connection signal="scrolling" from="CanvasLayer/HBoxContainer/Canvas/VBoxContainer/VScrollBar" to="CanvasLayer/HBoxContainer/UIElements" method="_on_VScrollBar_scrolling"]
+[connection signal="tab_changed" from="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs" to="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs" method="_on_ToolTabs_tab_changed"]
+[connection signal="item_selected" from="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/FactionTools/VBoxContainer/HoldingSelect" to="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/FactionTools" method="_on_HoldingSelect_item_selected"]
+[connection signal="item_selected" from="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/FactionTools/VBoxContainer/HoldingSelect" to="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/ToolTabs/FactionTools/VBoxContainer/HoldingSelect" method="_on_HoldingSelect_item_selected"]
+[connection signal="pressed" from="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/MarginContainer/HBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/HBoxContainer/UIElements/VBoxContainer/MarginContainer/HBoxContainer/LoadButton" to="." method="_on_LoadButton_pressed"]
+[connection signal="file_selected" from="CanvasLayer/SaveDialog" to="." method="_on_SaveDialog_file_selected"]
+[connection signal="file_selected" from="CanvasLayer/LoadDialog" to="." method="_on_LoadDialog_file_selected"]

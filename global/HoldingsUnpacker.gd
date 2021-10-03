@@ -1,19 +1,31 @@
 extends Node
 
 
-var Factions
+var _Factions
+var FactionResources : Array setget set_faction_resources
+
+signal faction_resources_changed()
+
+func set_faction_resources(f):
+	FactionResources = f
+	emit_signal("faction_resources_changed")
 
 func _init() -> void:
 	var file = File.new()
 	file.open("objects/holdings/holdings.json", File.READ)
 	var content = file.get_as_text()
-	Factions = JSON.parse(content).result
-	if typeof(Factions)==TYPE_DICTIONARY:
+	_Factions = JSON.parse(content).result
+	if typeof(_Factions)==TYPE_DICTIONARY:
 		pass
 	else:
 		print("Unexpected results found in holdings.json.")
-		Factions = null
+		_Factions = null
 		return
 	file.close()
 	
-	Factions = Factions.factions
+	_Factions = _Factions.factions
+	for f in _Factions:
+		var faction = Faction.new()
+		faction.name = f.name
+		faction.color = f.color
+		FactionResources.append(faction)

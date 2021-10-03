@@ -1,20 +1,16 @@
 {
 	"factions": [
 		{
-			"name": "Faction1",
-			"color": "#6bd1e8"
+			"name": "Epic",
+			"color": "#92dbfc"
 		},
 		{
-			"name": "Faction2",
-			"color": "#ff9a42"
+			"name": "Swag",
+			"color": "#883dad"
 		},
 		{
-			"name": "Faction3",
-			"color": "#42ff94"
-		},
-		{
-			"name": "Faction4",
-			"color": "#ff4262"
+			"name": "Radical",
+			"color": "#f1ff78"
 		}
 	]
 }

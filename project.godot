@@ -9,28 +9,39 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Resource",
+"class": "Faction",
+"language": "GDScript",
+"path": "res://FactionResource.gd"
+}, {
 "base": "PanelContainer",
 "class": "MapTool",
 "language": "GDScript",
 "path": "res://tools/MapTool.gd"
+}, {
+"base": "Resource",
+"class": "SaveGame",
+"language": "GDScript",
+"path": "res://SaveGame.gd"
 } ]
 _global_script_class_icons={
-"MapTool": ""
+"Faction": "",
+"MapTool": "",
+"SaveGame": ""
 }
 
 [application]
 
 config/name="Civilizations Map Designer"
-run/main_scene="res://Node2D.tscn"
+run/main_scene="res://MapEditor.tscn"
 config/icon="res://icon.png"
+config/version="0.0.1"
 
 [autoload]
 
 HexGrid="*res://global/HexGrid.tscn"
 Global="*res://global/Global.gd"
 HoldingsUnpacker="*res://global/HoldingsUnpacker.gd"
-MainCamera="*res://global/Camera2D.tscn"
-WorldRenderer="*res://global/WorldRenderer.tscn"
 
 [display]
 

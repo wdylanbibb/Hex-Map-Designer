@@ -14,25 +14,25 @@ onready var holding_preview = $HoldingPreview
 
 func _ready() -> void:
 	remove_child(holding_preview)
-	owner.call_deferred("add_child", holding_preview)
+	Renderer.call_deferred("add_child", holding_preview)
 	
 	MainCamera.connect("zoom_changed", self, "_on_Camera_zoom_changed")
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _renderer_input(event: InputEvent) -> void:
 	var previous_cell = _cell
-	var hex_position = HexGrid.get_closest_hex(WorldRenderer.get_global_mouse_position())
-	_cell = WorldRenderer.faction.world_to_map(hex_position)
+	var hex_position = HexGrid.get_closest_hex(Renderer.get_global_mouse_position())
+	_cell = Renderer.faction.world_to_map(hex_position)
 	_cell += Vector2(-1, -fmod(_cell.x, 2))
 	
-	var valid = WorldRenderer.faction.check_valid(_cell)
+	var valid = Renderer.faction.check_valid(_cell)
 	
 	if event is InputEventMouseMotion:
 		if not previous_cell == _cell:
-			if not WorldRenderer.get_cell(WorldRenderer.FACTION, previous_cell.x, previous_cell.y) == -1:
-				WorldRenderer.faction.set_highlight(WorldRenderer.get_cell(WorldRenderer.FACTION, previous_cell.x, previous_cell.y), 0)
-			if not WorldRenderer.get_cell(WorldRenderer.FACTION, _cell.x, _cell.y) == -1:
-				WorldRenderer.faction.set_highlight(WorldRenderer.get_cell(WorldRenderer.FACTION, _cell.x, _cell.y), highlight_amount)
+			if not Renderer.get_cell(Renderer.FACTION, previous_cell.x, previous_cell.y) == -1:
+				Renderer.faction.set_highlight(Renderer.get_cell(Renderer.FACTION, previous_cell.x, previous_cell.y), 0)
+			if not Renderer.get_cell(Renderer.FACTION, _cell.x, _cell.y) == -1:
+				Renderer.faction.set_highlight(Renderer.get_cell(Renderer.FACTION, _cell.x, _cell.y), highlight_amount)
 		
 		holding_preview.position = hex_position
 		if valid:
@@ -55,19 +55,18 @@ func _unhandled_input(event: InputEvent) -> void:
 func _action(cell: Vector2):
 	match _button:
 		BUTTON_LEFT:
-			WorldRenderer.set_cell(WorldRenderer.DECOR, cell.x, cell.y, 3)
-			WorldRenderer.update_area(WorldRenderer.DECOR, cell)
+			Renderer.set_cell(Renderer.DECOR, cell.x, cell.y, 3)
+			Renderer.update_area(Renderer.DECOR, cell)
 		BUTTON_RIGHT:
-			WorldRenderer.set_cell(WorldRenderer.DECOR, cell.x, cell.y, -1)
-			WorldRenderer.update_area(WorldRenderer.LAND, cell)
+			Renderer.set_cell(Renderer.DECOR, cell.x, cell.y, -1)
+			Renderer.update_area(Renderer.LAND, cell)
 
 
-func set_disabled(d: bool) -> void:
+func on_disabled(d: bool) -> void:
 	
-	set_process_unhandled_input(d)
-	holding_preview.visible = d
+	holding_preview.visible = not d
 	
-	.set_disabled(d)
+	.on_disabled(d)
 
 
 func _on_Camera_zoom_changed():

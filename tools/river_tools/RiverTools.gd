@@ -22,7 +22,7 @@ onready var river_id = $VBoxContainer/RiverID
 
 func _ready() -> void:
 	remove_child(river_preview)
-	owner.call_deferred("add_child", river_preview)
+	Renderer.call_deferred("add_child", river_preview)
 #	MainCamera.connect("zoom_changed", self, "_on_Camera_zoom_changed")
 #
 #
@@ -32,26 +32,25 @@ func _ready() -> void:
 #	if not edge == river_preview.position:
 #		river_edge.global_position = edge
 
-func set_disabled(d: bool) -> void:
+func on_disabled(d: bool) -> void:
 	
-	set_process_unhandled_input(d)
-	river_preview.visible = d
+	river_preview.visible = not d
 	
-	.set_disabled(d)
+	.on_disabled(d)
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	var hex_position = HexGrid.get_closest_hex(WorldRenderer.get_global_mouse_position())
-	var cell = WorldRenderer.river.world_to_map(hex_position)
+func _renderer_input(event: InputEvent) -> void:
+	var hex_position = HexGrid.get_closest_hex(Renderer.get_global_mouse_position())
+	var cell = Renderer.river.world_to_map(hex_position)
 	cell += Vector2(-1, -fmod(cell.x, 2))
 	
 	if event is InputEventMouseMotion:
-		river_preview.position = hex_position
-		var edge = HexGrid.get_closest_edge(WorldRenderer.get_global_mouse_position())
-		if not edge == river_preview.position:
+		river_preview.global_position = hex_position
+		var edge = HexGrid.get_closest_edge(Renderer.get_global_mouse_position())
+		if not edge == river_preview.global_position:
 			river_edge.global_position = edge
 		cell_position.set_text("Cell: " + str(cell))
-		river_id.set_text("River ID: " + str(WorldRenderer.river.get_cell_id(cell)))
+		river_id.set_text("River ID: " + str(Renderer.river.get_cell_id(cell)))
 		
 		if _pressed:
 			_action(cell)
@@ -64,10 +63,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _action(cell: Vector2):
-	var edge = HexGrid.vector_to_edge_bit((HexGrid.pixel_to_hex_edge(river_edge.global_position).cube-HexGrid.pixel_to_hex_edge(river_preview.position).cube))
+	var edge = HexGrid.vector_to_edge_bit((HexGrid.pixel_to_hex_edge(river_edge.global_position).cube-HexGrid.pixel_to_hex_edge(river_preview.global_position).cube))
 	match _button:
 		BUTTON_LEFT:
-			WorldRenderer.river.set_river_edge(cell.x, cell.y, edge, true)
+			Renderer.river.set_river_edge(cell.x, cell.y, edge, true)
 		BUTTON_RIGHT:
-			WorldRenderer.river.set_river_edge(cell.x, cell.y, edge, false)
+			Renderer.river.set_river_edge(cell.x, cell.y, edge, false)
 
